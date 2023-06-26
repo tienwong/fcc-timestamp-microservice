@@ -18,13 +18,22 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-
 // your first API endpoint... 
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-
+app.get('/api/:date?', (req, res) => {
+  const numberInput = Number(req.params.date)
+  // Case 1: It's not a unix timestamp
+  if (Number.isNaN(numberInput)) {
+    
+  // Case 2: It's a unix timestamp
+  } else {
+    const d = new Date(numberInput)
+    res.send({unix: numberInput, utc: d.toUTCString()})
+  }
+})
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
