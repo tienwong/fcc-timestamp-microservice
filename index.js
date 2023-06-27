@@ -27,7 +27,15 @@ app.get('/api/:date?', (req, res) => {
   const numberInput = Number(req.params.date)
   // Case 1: It's not a unix timestamp
   if (Number.isNaN(numberInput)) {
-    
+    // Empty string case
+    if (!req.params.date) {
+      const d = new Date()
+      res.send({ unix: (d.getTime() / 1000), utc: d.toUTCString()})
+    // Non-empty string
+    } else {
+      const d = new Date(req.params.date)
+      d.toString() === 'Invalid Date' ? res.send({ error: 'Invalid Date'}) : res.send({ unix: (d.getTime() / 1000), utc: d.toUTCString()})
+    }
   // Case 2: It's a unix timestamp
   } else {
     const d = new Date(numberInput)
