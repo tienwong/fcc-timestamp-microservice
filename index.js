@@ -25,7 +25,7 @@ app.get("/api/hello", function (req, res) {
 
 app.get('/api/', (req, res) => {
   const d = new Date()
-  res.send({ unix: (d.getTime() / 1000), utc: d.toUTCString()})
+  res.send({ unix: d.getTime(), utc: d.toUTCString()})
 })
 
 app.get('/api/:date', (req, res) => {
@@ -33,7 +33,7 @@ app.get('/api/:date', (req, res) => {
   // Case 1: It's not a unix timestamp
   if (Number.isNaN(numberInput)) {
     const d = new Date(req.params.date)
-    d.toString() === 'Invalid Date' ? res.send({ error: 'Invalid Date'}) : res.send({ unix: (d.getTime() / 1000), utc: d.toUTCString()})
+    d.toString() === 'Invalid Date' ? res.send({ error: 'Invalid Date'}) : res.send({ unix: d.getTime(), utc: d.toUTCString()})
   // Case 2: It's a unix timestamp
   } else {
     const d = new Date(numberInput)
